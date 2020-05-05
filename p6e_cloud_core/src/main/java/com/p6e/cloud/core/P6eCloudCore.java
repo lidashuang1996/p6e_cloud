@@ -1,28 +1,17 @@
 package com.p6e.cloud.core;
 
+import com.p6e.cloud.netty.P6eCloudNettyClient;
+
 import java.util.Map;
 
 public abstract class P6eCloudCore {
 
-    public static void create() {
+    public abstract void onOpen(P6eCloudNettyClient client, Map<String, String> map, Object message);
 
-    }
+    public abstract void onClose(P6eCloudNettyClient client);
 
+    public abstract void onError(P6eCloudNettyClient client, Throwable throwable);
 
-    public abstract void onOpen(Object o, Map<String, String> map);
-
-    public abstract void onClose(Object o);
-
-    public abstract void onError(Object o, Throwable throwable);
-
-    public abstract void onMessageText(Object o,String message);
-
-    public abstract void onMessageBinary(Object o, byte[] message);
-
-    public abstract void onMessagePong(Object o, byte[] message);
-
-    public abstract void onMessagePing(Object o, byte[] message);
-
-    public abstract void onMessageContinuation(Object o, byte[] message);
+    public abstract void onMessage(P6eCloudNettyClient client, Object[] message);
 
 }

@@ -29,6 +29,8 @@ public class P6eCloudConfig {
     /** Web Socket 服务 */
     private P6eCloudConfigWebSocketService webSocketService;
 
+    private String pattern;
+
     /** 核心模块的模式选择 */
     private P6eCloudConfigGroupPattern groupPattern;
 
@@ -70,5 +72,13 @@ public class P6eCloudConfig {
 
     public void setBaseService(P6eCloudConfigService baseService) {
         this.baseService = baseService;
+    }
+
+    public String getPattern() {
+        return pattern;
+    }
+
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
     }
 }

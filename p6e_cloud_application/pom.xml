@@ -26,6 +26,13 @@
             <artifactId>p6e-cloud-netty</artifactId>
             <version>0.0.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.p6e.cloud</groupId>
+            <artifactId>p6e-cloud-core</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>

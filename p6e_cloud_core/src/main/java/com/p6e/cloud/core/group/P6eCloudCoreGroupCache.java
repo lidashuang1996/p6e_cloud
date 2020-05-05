@@ -2,12 +2,26 @@ package com.p6e.cloud.core.group;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ThreadPoolExecutor;
 
-public final class P6eCloudCoreGroupCache {
+final class P6eCloudCoreGroupCache {
 
     private static final Map<String, P6eCloudCoreGroupCacheModel> cache = new HashMap<>();
+    private static ThreadPoolExecutor executor;
+    static void init(ThreadPoolExecutor threadPoolExecutor) {
+        executor = threadPoolExecutor;
+    }
 
-    public static P6eCloudCoreGroupCacheModel getGroupCacheModel(String group) {
+    static P6eCloudCoreGroupCacheModel createGroupCacheModel(String group) {
+        P6eCloudCoreGroupCacheModel p6eCloudCoreGroupCacheModel = cache.get(group);
+        if (p6eCloudCoreGroupCacheModel == null) {
+            p6eCloudCoreGroupCacheModel = cache.put(group, new P6eCloudCoreGroupCacheModel(executor));
+        }
+        return p6eCloudCoreGroupCacheModel;
+    }
+
+    static P6eCloudCoreGroupCacheModel getGroupCacheModel(String group) {
         return cache.get(group);
     }
+
 }

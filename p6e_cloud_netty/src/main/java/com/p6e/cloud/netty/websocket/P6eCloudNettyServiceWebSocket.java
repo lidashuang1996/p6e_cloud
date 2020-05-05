@@ -1,6 +1,7 @@
 package com.p6e.cloud.netty.websocket;
 
 import com.p6e.cloud.netty.P6eCloudNettyAbstract;
+import com.p6e.cloud.netty.P6eCloudNettyClient;
 import com.p6e.cloud.netty.P6eCloudNettyServiceProcessor;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
@@ -18,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URLDecoder;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 /**
@@ -118,9 +120,9 @@ public class P6eCloudNettyServiceWebSocket extends P6eCloudNettyAbstract {
                                                 if (kv.length == 2) map.put(URLDecoder.decode(kv[0], "UTF-8"), URLDecoder.decode(kv[1], "UTF-8"));
                                             }
                                         }
-                                        processor.onOpen(ctx, map);
+                                        processor.onOpen(cache.put(ctx.name(), new P6eCloudNettyClient(ctx)), map);
                                     } catch (Exception e) {
-                                        processor.onError(e);
+                                        processor.onError(cache.get(ctx.name()), e);
                                     }
                                 }
                             });
@@ -151,33 +153,34 @@ public class P6eCloudNettyServiceWebSocket extends P6eCloudNettyAbstract {
                                 @Override
                                 public void channelRead(ChannelHandlerContext ctx, Object msg) {
                                     logger.debug(" channelRead " + ctx + "   msg  " + msg);
+                                    P6eCloudNettyClient client = cache.get(ctx.name());
                                     try {
                                         WebSocketFrame frame = (WebSocketFrame) msg;
                                         if (frame instanceof BinaryWebSocketFrame) {
                                             ByteBuf byteBuf = frame.content();
                                             byte[] bytes = new byte[byteBuf.readableBytes()];
                                             byteBuf.readBytes(bytes);
-                                            processor.onMessageBinary(bytes);
+                                            processor.onMessageBinary(client, bytes);
                                         } else if (frame instanceof TextWebSocketFrame) {
-                                            processor.onMessageText(((TextWebSocketFrame) frame).text());
+                                            processor.onMessageText(client, ((TextWebSocketFrame) frame).text());
                                         } else if (frame instanceof PongWebSocketFrame) {
                                             ByteBuf byteBuf = frame.content();
                                             byte[] bytes = new byte[byteBuf.readableBytes()];
                                             byteBuf.readBytes(bytes);
-                                            processor.onMessagePong(bytes);
+                                            processor.onMessagePong(client, bytes);
                                         } else if (frame instanceof PingWebSocketFrame) {
                                             ByteBuf byteBuf = frame.content();
                                             byte[] bytes = new byte[byteBuf.readableBytes()];
                                             byteBuf.readBytes(bytes);
-                                            processor.onMessagePing(bytes);
+                                            processor.onMessagePing(client, bytes);
                                         } else if (frame instanceof ContinuationWebSocketFrame) {
                                             ByteBuf byteBuf = frame.content();
                                             byte[] bytes = new byte[byteBuf.readableBytes()];
                                             byteBuf.readBytes(bytes);
-                                            processor.onMessageContinuation(bytes);
+                                            processor.onMessageContinuation(client, bytes);
                                         }
                                     } catch (Exception e) {
-                                        processor.onError(e);
+                                        processor.onError(client, e);
                                     }
                                 }
 
@@ -204,13 +207,14 @@ public class P6eCloudNettyServiceWebSocket extends P6eCloudNettyAbstract {
                                 @Override
                                 public void handlerRemoved(ChannelHandlerContext ctx) {
                                     logger.debug(" handlerRemoved " + ctx);
-                                    processor.onClose();
+                                    cache.remove(ctx.name()); // 删除
+                                    processor.onClose(cache.get(ctx.name()));
                                 }
 
                                 @Override
                                 public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
                                     logger.debug(" exceptionCaught " + ctx);
-                                    processor.onError(cause);
+                                    processor.onError(cache.get(ctx.name()), cause);
                                 }
                             });
                         }
@@ -223,6 +227,7 @@ public class P6eCloudNettyServiceWebSocket extends P6eCloudNettyAbstract {
             ChannelFuture channelFuture = server.bind(port).sync();
             logger.info("[ NETTY ] ==> WebSocket service started successfully !!");
             logger.info("[ NETTY ] ==> listening port is => [ " + port + " ]");
+            logger.info("[ NETTY ] ==> access address is => [ 127.0.0.1:" + port + "/" + contentPath + " ]");
             channelFuture.channel().closeFuture().sync();
         } catch (Exception e){
             e.printStackTrace();

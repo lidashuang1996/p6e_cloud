@@ -1,16 +1,18 @@
 package com.p6e.cloud.core.group;
 
+import com.p6e.cloud.netty.P6eCloudNettyClient;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
 
-public class P6eCloudCoreGroupCacheModel {
+class P6eCloudCoreGroupCacheModel {
     private int len;
     private int num;
     private ThreadPoolExecutor executor;
-    private List<GroupArray> cache = new ArrayList<GroupArray>();
+    private List<GroupArray> cache = new ArrayList<>();
 
-    public P6eCloudCoreGroupCacheModel(ThreadPoolExecutor executor) {
+    P6eCloudCoreGroupCacheModel(ThreadPoolExecutor executor) {
         this(500, 5, executor);
     }
 
@@ -22,54 +24,62 @@ public class P6eCloudCoreGroupCacheModel {
      * @param num 开始的线程数
      * @param executor 全局的线程池 【为了避免给每个组创建一个线程池，造成资源浪费】
      */
-    public P6eCloudCoreGroupCacheModel(int len, int num, ThreadPoolExecutor executor) {
+    P6eCloudCoreGroupCacheModel(int len, int num, ThreadPoolExecutor executor) {
         this.len = len;
         this.num = num;
         this.executor = executor;
     }
 
-    public synchronized void add(Object o) {
-        boolean bool = false;
-        for (GroupArray array : cache) if (bool = array.add(o)) break;
-        if (!bool) {
-            GroupArray groupArray = new GroupArray(this.len);
-            if (groupArray.add(o)) cache.add(groupArray);
-            else throw new RuntimeException(this.getClass().toString() + " ADD ERROR !!");
+    synchronized int[] add(P6eCloudNettyClient client) {
+        int[] r = new int[] {-1, -1};
+        for (int i = 0; i < cache.size(); i++) {
+            if ((r[1] = cache.get(i).add(client)) >= 0) {
+                r[0] = i;
+                break;
+            }
         }
+        if (r[1] >= 0) {
+            GroupArray groupArray = new GroupArray(this.len);
+            if ((r[1] = groupArray.add(client)) >= 0) {
+                cache.add(groupArray);
+                r[0] = cache.size() - 1;
+            } else throw new RuntimeException(this.getClass().toString() + " ADD ERROR !!");
+        }
+        return r;
     }
 
-    public synchronized void del(Object o) {
-        for (GroupArray array : cache) if (array.del(o)) break;
+    synchronized void del(int[] coordinate) {
+        cache.get(coordinate[0]).del(coordinate[1]);
     }
 
-    public synchronized void pushMessage(byte[] bytes) {
+    synchronized void pushMessage(String message) {
         int size = cache.size();
         for (int i = 0; i < (size > num ? num : size) ; i++) {
-            executor.execute(new MessageHandle(i, num, cache, bytes));
+            executor.execute(new MessageHandle(i, num, cache, message));
         }
     }
 
     private static class MessageHandle extends Thread {
         private int i;
         private int num;
-        private byte[] bytes;
+        private String message;
         private List<GroupArray> cache;
 
-        MessageHandle(int i, int num, List<GroupArray> cache, byte[] bytes) {
+        MessageHandle(int i, int num, List<GroupArray> cache, String message) {
             this.i = i;
             this.num = num;
             this.cache = cache;
-            this.bytes = bytes;
+            this.message = message;
         }
 
         @Override
         public void run() {
             super.run();
             while (i < cache.size()) {
-                i = i + num;
-                for (Object o : cache.get(i).__objects__()) {
-                    // 推送数据
+                for (P6eCloudNettyClient client : cache.get(i).__clients__()) {
+                    client.sendMessage(message);
                 }
+                i = i + num;
             }
         }
     }
@@ -78,61 +88,69 @@ public class P6eCloudCoreGroupCacheModel {
         private int len;
         private int size = 0;
         private int index = 0;
-        private Object[] objects;
+        private P6eCloudNettyClient[] clients;
 
         GroupArray(int len) {
             this.len = len;
-            this.objects = new Object[len];
+            this.clients = new P6eCloudNettyClient[len];
         }
 
         int size() {
             return size;
         }
 
-        boolean add(Object o) {
-            if (size == len) return false;
-            boolean bool = false;
+        int add(P6eCloudNettyClient client) {
+            if (size == len) return -1;
+            int r = -1;
             if (index < len) {
-                if (objects[index] == null) {
-                    bool = true;
-                    objects[index++] = o;
+                if (clients[index] == null) {
+                    r = index;
+                    clients[index++] = client;
                 } else {
                     for (int i = index + 1; i < len; i++) {
-                        if (objects[i] == null) {
+                        if (clients[i] == null) {
+                            r = i;
                             index = i;
-                            bool = true;
-                            objects[index++] = o;
+                            clients[index++] = client;
                             break;
+                        }
+                    }
+                    if (r == -1) {
+                        for (int i = 0; i < index; i++) {
+                            if (clients[i] == null) {
+                                r = i;
+                                index = i;
+                                clients[index++] = client;
+                                break;
+                            }
                         }
                     }
                 }
             } else {
                 for (int i = 0; i < len; i++) {
-                    if (objects[i] == null) {
+                    if (clients[i] == null) {
+                        r = i;
                         index = i;
-                        bool = true;
-                        objects[index++] = o;
+                        clients[index++] = client;
                         break;
                     }
                 }
             }
-            if (bool) size = size + 1;
-            else size = len;
-            return bool;
+            if (r >= 0) size = size + 1;
+            else {
+                index = 0;
+                size = len;
+            }
+            return r;
         }
 
-        boolean del(Object o) {
-            return false;
+        void del(int index) {
+            clients[index] = null;
         }
 
-        Object[] __objects__() {
-            return objects;
+        P6eCloudNettyClient[] __clients__() {
+            return clients;
         }
-
 
     }
-
-
-
-
 }
