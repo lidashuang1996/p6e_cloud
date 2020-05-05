@@ -20,6 +20,11 @@ import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * WebSocket 服务搭建
+ * @author LiDaShuang
+ * @version 1.0
+ */
 public class P6eCloudNettyServiceWebSocket extends P6eCloudNettyAbstract {
 
     /** 注入的日志对象 */
