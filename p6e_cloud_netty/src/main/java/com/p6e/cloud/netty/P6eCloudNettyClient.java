@@ -46,6 +46,6 @@ public class P6eCloudNettyClient {
     }
 
     public void sendMessage(String content) {
-
+        channelHandlerContext.channel().writeAndFlush(content);
     }
 }

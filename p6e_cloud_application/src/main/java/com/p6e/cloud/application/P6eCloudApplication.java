@@ -37,7 +37,6 @@ public class P6eCloudApplication {
             default:
                 throw new RuntimeException("No corresponding message mode processor found");
         }
-        System.out.println(p6eCloudCore);
     }
 
     public void run() {
