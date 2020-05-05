@@ -227,7 +227,7 @@ public class P6eCloudNettyServiceWebSocket extends P6eCloudNettyAbstract {
             ChannelFuture channelFuture = server.bind(port).sync();
             logger.info("[ NETTY ] ==> WebSocket service started successfully !!");
             logger.info("[ NETTY ] ==> listening port is => [ " + port + " ]");
-            logger.info("[ NETTY ] ==> access address is => [ 127.0.0.1:" + port + "/" + contentPath + " ]");
+            logger.info("[ NETTY ] ==> access address is => [ 127.0.0.1:" + port + contentPath + " ]");
             channelFuture.channel().closeFuture().sync();
         } catch (Exception e){
             e.printStackTrace();

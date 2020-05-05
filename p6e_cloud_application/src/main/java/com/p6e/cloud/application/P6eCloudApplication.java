@@ -3,42 +3,44 @@ package com.p6e.cloud.application;
 import com.p6e.cloud.config.P6eCloudConfig;
 import com.p6e.cloud.config.P6eCloudConfigDefault;
 import com.p6e.cloud.config.service.P6eCloudConfigService;
-import com.p6e.cloud.config.service.P6eCloudConfigSocketService;
 import com.p6e.cloud.config.service.P6eCloudConfigWebSocketService;
 import com.p6e.cloud.core.P6eCloudCore;
 import com.p6e.cloud.core.P6eCloudCoreAuth;
+import com.p6e.cloud.core.P6eCloudCoreReactor;
+import com.p6e.cloud.core.group.P6eCloudCoreGroup;
+import com.p6e.cloud.core.group.P6eCloudCoreGroupReactor;
 import com.p6e.cloud.netty.*;
 import com.p6e.cloud.netty.socket.P6eCloudNettyServiceSocket;
 import com.p6e.cloud.netty.websocket.P6eCloudNettyServiceWebSocket;
 import com.p6e.cloud.netty.websocket.P6eCloudNettyServiceWebSocketProcessor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
 public class P6eCloudApplication {
 
-    private static final Logger logger = LoggerFactory.getLogger(P6eCloudApplication.class);
-
     private P6eCloudCore p6eCloudCore;
     private P6eCloudConfig p6eCloudConfig;
-    private P6eCloudNettyAbstract[] p6eCloudNettyAbstracts;
 
-    public P6eCloudApplication(P6eCloudCore p6eCloudCore, P6eCloudConfig p6eCloudConfig, P6eCloudCoreAuth p6eCloudCoreAuth) {
-        this.p6eCloudCore = p6eCloudCore;
+    public P6eCloudApplication(P6eCloudConfig p6eCloudConfig,
+                               P6eCloudCoreAuth p6eCloudCoreAuth,
+                               P6eCloudCoreReactor p6eCloudCoreReactor) {
         this.p6eCloudConfig = p6eCloudConfig;
         String pattern = p6eCloudConfig.getPattern();
         switch (pattern.toUpperCase()) {
             case "TEST":
                 break;
             case "GROUP":
+                if (p6eCloudCoreReactor instanceof P6eCloudCoreGroupReactor) {
+                    p6eCloudCore = new P6eCloudCoreGroup(p6eCloudCoreAuth, (P6eCloudCoreGroupReactor) p6eCloudCoreReactor);
+                } else throw new RuntimeException("P6eCloudCoreGroupReactor conversion type exception");
                 break;
             default:
                 throw new RuntimeException("No corresponding message mode processor found");
         }
+        System.out.println(p6eCloudCore);
     }
 
-    public P6eCloudApplication run() {
+    public void run() {
         /*
         * 编码解码的配置文件读取和赋值操作
         * 并且注入的 P6eCloudNettyAbstract 中使用
@@ -64,11 +66,11 @@ public class P6eCloudApplication {
          * 初始化模块的执行对象
          */
         String[] programs = p6eCloudConfig.getService();
-        p6eCloudNettyAbstracts = new P6eCloudNettyAbstract[programs.length];
+        P6eCloudNettyAbstract [] p6eCloudNettyAbstracts = new P6eCloudNettyAbstract[programs.length];
         for (int i = 0; i < programs.length; i++) {
             switch (programs[i].toUpperCase()) {
                 case "SOCKET":
-                    P6eCloudConfigSocketService socketServiceConfig = p6eCloudConfig.getSocketService();
+                    // P6eCloudConfigSocketService socketServiceConfig = p6eCloudConfig.getSocketService();
                     p6eCloudNettyAbstracts[i] = new P6eCloudNettyServiceSocket();
                     break;
                 case "WEBSOCKET":
@@ -79,7 +81,7 @@ public class P6eCloudApplication {
                             new P6eCloudNettyServiceWebSocketProcessor() {
                                 @Override
                                 public void onOpen(P6eCloudNettyClient client, Map<String, String> map) {
-                                    p6eCloudCore.onOpen(client, map);
+                                    p6eCloudCore.onOpen(client, map, null);
                                 }
 
                                 @Override
@@ -93,28 +95,7 @@ public class P6eCloudApplication {
                                 }
 
                                 @Override
-                                public void onMessageText(P6eCloudNettyClient client, String message) {
-                                    p6eCloudCore.onMessageText(client, message);
-                                }
-
-                                @Override
                                 public void onMessageBinary(P6eCloudNettyClient client, byte[] message) {
-                                    p6eCloudCore.onMessageBinary(client, message);
-                                }
-
-                                @Override
-                                public void onMessagePong(P6eCloudNettyClient client, byte[] message) {
-                                    p6eCloudCore.onMessagePong(client, message);
-                                }
-
-                                @Override
-                                public void onMessagePing(P6eCloudNettyClient client, byte[] message) {
-                                    p6eCloudCore.onMessagePing(client, message);
-                                }
-
-                                @Override
-                                public void onMessageContinuation(P6eCloudNettyClient client, byte[] message) {
-                                    p6eCloudCore.onMessageContinuation(client, message);
                                 }
                             }
                     );
@@ -125,11 +106,25 @@ public class P6eCloudApplication {
         }
         // 启动指定的程序
         for (P6eCloudNettyAbstract netty : p6eCloudNettyAbstracts) netty.run();
-        return this;
     }
 
-    public static P6eCloudApplication create() {
-        return new P6eCloudApplication(new P6eCloudConfigDefault());
+    public static P6eCloudApplication create(P6eCloudCoreReactor p6eCloudCoreReactor) {
+        return create(new P6eCloudConfigDefault(), null, p6eCloudCoreReactor);
+    }
+
+    public static P6eCloudApplication create(P6eCloudConfig p6eCloudConfig, P6eCloudCoreReactor p6eCloudCoreReactor) {
+        return create(p6eCloudConfig, null, p6eCloudCoreReactor);
+    }
+
+    public static P6eCloudApplication create(P6eCloudCoreAuth p6eCloudCoreAuth, P6eCloudCoreReactor p6eCloudCoreReactor) {
+        return create(new P6eCloudConfigDefault(), p6eCloudCoreAuth, p6eCloudCoreReactor);
+    }
+
+
+    public static P6eCloudApplication create(P6eCloudConfig p6eCloudConfig,
+                                             P6eCloudCoreAuth p6eCloudCoreAuth,
+                                             P6eCloudCoreReactor p6eCloudCoreReactor) {
+        return new P6eCloudApplication(p6eCloudConfig, p6eCloudCoreAuth, p6eCloudCoreReactor);
     }
 
 }

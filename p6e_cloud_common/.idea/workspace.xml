@@ -2,26 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8c77771d-e519-4e21-988d-8e4e292389c7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../p6e_cloud_application/src/main/java/com/p6e/cloud/application/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../p6e_cloud_core/src/main/java/com/p6e/cloud/core/P6eCloudCoreReactor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../p6e_cloud_netty/src/main/java/com/p6e/cloud/netty/P6eCloudNettyClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_application/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_application/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../p6e_cloud_application/src/test/java/com/p6e/cloud/application/P6eCloudApplicationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../p6e_cloud_application/src/main/java/com/p6e/cloud/application/Main.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../p6e_cloud_application/src/main/java/com/p6e/cloud/application/P6eCloudApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_application/src/main/java/com/p6e/cloud/application/P6eCloudApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_config/src/main/java/com/p6e/cloud/config/P6eCloudConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_config/src/main/java/com/p6e/cloud/config/P6eCloudConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_config/src/main/java/com/p6e/cloud/config/P6eCloudConfigDefault.java" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_config/src/main/java/com/p6e/cloud/config/P6eCloudConfigDefault.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_core/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_core/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_core/src/main/java/com/p6e/cloud/core/P6eCloudCore.java" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_core/src/main/java/com/p6e/cloud/core/P6eCloudCore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_core/src/main/java/com/p6e/cloud/core/P6eCloudCoreAuth.java" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_core/src/main/java/com/p6e/cloud/core/P6eCloudCoreAuth.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_core/src/main/java/com/p6e/cloud/core/group/P6eCloudCoreGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_core/src/main/java/com/p6e/cloud/core/group/P6eCloudCoreGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_core/src/main/java/com/p6e/cloud/core/group/P6eCloudCoreGroupCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_core/src/main/java/com/p6e/cloud/core/group/P6eCloudCoreGroupCache.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_core/src/main/java/com/p6e/cloud/core/group/P6eCloudCoreGroupCacheModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_core/src/main/java/com/p6e/cloud/core/group/P6eCloudCoreGroupCacheModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_core/src/main/java/com/p6e/cloud/core/group/P6eCloudCoreGroupReactor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_core/src/main/java/com/p6e/cloud/core/group/P6eCloudCoreGroupReactor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_netty/src/main/java/com/p6e/cloud/netty/P6eCloudNettyAbstract.java" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_netty/src/main/java/com/p6e/cloud/netty/P6eCloudNettyAbstract.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_netty/src/main/java/com/p6e/cloud/netty/P6eCloudNettyApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_netty/src/main/java/com/p6e/cloud/netty/P6eCloudNettyServiceProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_netty/src/main/java/com/p6e/cloud/netty/P6eCloudNettyServiceProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../p6e_cloud_netty/src/main/java/com/p6e/cloud/netty/websocket/P6eCloudNettyServiceWebSocket.java" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_netty/src/main/java/com/p6e/cloud/netty/websocket/P6eCloudNettyServiceWebSocket.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_netty/src/main/java/com/p6e/cloud/netty/websocket/P6eCloudNettyServiceWebSocketProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_netty/src/main/java/com/p6e/cloud/netty/websocket/P6eCloudNettyServiceWebSocketProcessor.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -57,8 +44,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="8" column="32" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="32" />
+            <state relative-caret-position="486">
+              <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
             </state>
           </provider>
         </entry>
@@ -167,7 +154,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1588676561042" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1588682785428" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="show.migrate.to.gradle.popup" value="false" />
@@ -200,12 +187,12 @@
       <option name="presentableId" value="Default" />
       <updated>1588588640367</updated>
       <workItem from="1588588643868" duration="1221000" />
-      <workItem from="1588641390263" duration="3226000" />
+      <workItem from="1588641390263" duration="3848000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4447000" />
+    <option name="totallyTimeSpent" value="5069000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="752" y="62" width="1334" height="1056" extended-state="0" />
@@ -275,8 +262,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="8" column="32" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="32" />
+        <state relative-caret-position="486">
+          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
         </state>
       </provider>
     </entry>
