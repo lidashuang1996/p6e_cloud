@@ -32,6 +32,14 @@ public class P6eCloudNettyDecoderDefault implements P6eCloudNettyDecoder {
         private String mode;
         private String type;
 
+        public Config() { }
+
+        public Config(int len, String mode, String type) {
+            this.len = len;
+            this.mode = mode;
+            this.type = type;
+        }
+
         public int getLen() {
             return len;
         }

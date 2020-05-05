@@ -1,6 +1,6 @@
-package com.p6e.cloud.config;
+package com.p6e.cloud.config.service;
 
-public class P6eCloudCoreConfigService {
+public class P6eCloudConfigSocketService {
 
     /** 端口 */
     private int port;

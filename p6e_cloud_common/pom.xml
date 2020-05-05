@@ -6,10 +6,10 @@
 
 
     <groupId>com.p6e.cloud</groupId>
-    <artifactId>p6e-cloud-config</artifactId>
+    <artifactId>p6e-cloud-common</artifactId>
     <version>0.0.1</version>
-    <name>p6e_cloud_config</name>
-    <description>p6e_cloud_config</description>
+    <name>p6e-cloud-common</name>
+    <description>p6e-cloud-common</description>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->

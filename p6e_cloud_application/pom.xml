@@ -5,29 +5,25 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.p6e.cloud</groupId>
-    <artifactId>p6e-cloud-netty</artifactId>
+    <artifactId>application</artifactId>
     <version>0.0.1</version>
 
     <dependencies>
-
-        <!-- Netty JAR -->
-        <!-- https://netty.io/downloads.html -->
         <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.1.48.Final</version>
-        </dependency>
-
-        <!-- 测试工具 JAR -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <groupId>com.p6e.cloud</groupId>
+            <artifactId>p6e-cloud-config</artifactId>
+            <version>0.0.1</version>
         </dependency>
 
         <dependency>
             <groupId>com.p6e.cloud</groupId>
             <artifactId>p6e-cloud-common</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.p6e.cloud</groupId>
+            <artifactId>p6e-cloud-netty</artifactId>
             <version>0.0.1</version>
         </dependency>
     </dependencies>
