@@ -1,7 +1,8 @@
 HELP.md
 */target/
-*/logs/
-*/log/
+*/logs/*
+*/log/*
+*.log
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
@@ -16,6 +17,7 @@ HELP.md
 .sts4-cache
 
 ### IntelliJ IDEA ###
+*/.idea
 .idea
 *.iws
 *.iml

@@ -38,7 +38,7 @@ class P6eCloudCoreGroupCacheModel {
                 break;
             }
         }
-        if (r[1] >= 0) {
+        if (r[1] < 0) {
             GroupArray groupArray = new GroupArray(this.len);
             if ((r[1] = groupArray.add(client)) >= 0) {
                 cache.add(groupArray);
@@ -50,6 +50,10 @@ class P6eCloudCoreGroupCacheModel {
 
     synchronized void del(int[] coordinate) {
         cache.get(coordinate[0]).del(coordinate[1]);
+    }
+
+    public List<GroupArray> cache() {
+        return cache;
     }
 
     synchronized void pushMessage(String message) {
@@ -77,7 +81,7 @@ class P6eCloudCoreGroupCacheModel {
             super.run();
             while (i < cache.size()) {
                 for (P6eCloudNettyClient client : cache.get(i).__clients__()) {
-                    client.sendMessage(message);
+                    if (client != null) client.sendMessage(message);
                 }
                 i = i + num;
             }

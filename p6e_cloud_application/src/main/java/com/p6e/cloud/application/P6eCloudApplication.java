@@ -95,6 +95,12 @@ public class P6eCloudApplication {
 
                                 @Override
                                 public void onMessageBinary(P6eCloudNettyClient client, byte[] message) {
+                                    p6eCloudCore.onMessage(client, new Object[] {message});
+                                }
+
+                                @Override
+                                public void onMessageText(P6eCloudNettyClient client, String message) {
+                                    p6eCloudCore.onMessage(client, new Object[] {message});
                                 }
                             }
                     );

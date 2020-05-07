@@ -43,6 +43,14 @@ public class P6eCloudCoreGroup extends P6eCloudCore {
             client.setAttribute(GROUP_NAME, group);
             int[] coordinate = P6eCloudCoreGroupCache.createGroupCacheModel(group).add(client);
             client.setAttribute(COORDINATE_NAME, coordinate);
+
+            System.out.println("\n\n");
+            System.out.println("------------------");
+            System.out.println(client.getAttribute(GROUP_NAME));
+            System.out.println(((int[])client.getAttribute(COORDINATE_NAME))[0] + "  " + ((int[])client.getAttribute(COORDINATE_NAME))[1]);
+            System.out.println(P6eCloudCoreGroupCache.getGroupCacheModel(group).cache());
+            System.out.println("------------------");
+            System.out.println("\n\n");
         }
     }
 

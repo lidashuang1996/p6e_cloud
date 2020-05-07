@@ -15,7 +15,9 @@ final class P6eCloudCoreGroupCache {
     static P6eCloudCoreGroupCacheModel createGroupCacheModel(String group) {
         P6eCloudCoreGroupCacheModel p6eCloudCoreGroupCacheModel = cache.get(group);
         if (p6eCloudCoreGroupCacheModel == null) {
-            p6eCloudCoreGroupCacheModel = cache.put(group, new P6eCloudCoreGroupCacheModel(executor));
+            p6eCloudCoreGroupCacheModel = new P6eCloudCoreGroupCacheModel(executor);
+            cache.put(group, p6eCloudCoreGroupCacheModel);
+            return p6eCloudCoreGroupCacheModel;
         }
         return p6eCloudCoreGroupCacheModel;
     }

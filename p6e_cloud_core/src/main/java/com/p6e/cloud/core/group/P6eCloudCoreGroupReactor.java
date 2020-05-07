@@ -46,8 +46,8 @@ public abstract class P6eCloudCoreGroupReactor implements P6eCloudCoreReactor {
         executor.execute(() -> onMessageOtherAsync(message));
     }
 
-    public abstract void onMessageClientAsync(P6eCloudNettyClient client, Object[] message);
+    public void onMessageClientAsync(P6eCloudNettyClient client, Object[] message) {}
 
-    public abstract void onMessageOtherAsync(Object[] message);
+    public void onMessageOtherAsync(Object[] message) {}
 
 }
