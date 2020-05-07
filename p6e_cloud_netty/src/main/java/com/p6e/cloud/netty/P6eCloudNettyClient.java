@@ -1,6 +1,7 @@
 package com.p6e.cloud.netty;
 
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -43,9 +44,10 @@ public class P6eCloudNettyClient {
     }
 
     public void close() {
+        channelHandlerContext.channel().close();
     }
 
     public void sendMessage(String content) {
-        channelHandlerContext.channel().writeAndFlush(content);
+        channelHandlerContext.channel().writeAndFlush(new TextWebSocketFrame(content));
     }
 }

@@ -1,5 +1,6 @@
 package com.p6e.cloud.netty.websocket;
 
+import com.p6e.cloud.common.P6eTool;
 import com.p6e.cloud.netty.P6eCloudNettyAbstract;
 import com.p6e.cloud.netty.P6eCloudNettyClient;
 import com.p6e.cloud.netty.P6eCloudNettyServiceProcessor;
@@ -17,16 +18,12 @@ import io.netty.handler.stream.ChunkedWriteHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URLDecoder;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
-
 /**
  * WebSocket 服务搭建
  * @author LiDaShuang
  * @version 1.0
  */
+
 public class P6eCloudNettyServiceWebSocket extends P6eCloudNettyAbstract {
 
     /** 注入的日志对象 */
@@ -104,32 +101,15 @@ public class P6eCloudNettyServiceWebSocket extends P6eCloudNettyAbstract {
 
                             // 处理所有委托管理的 WebSocket 帧类型以及握手本身
                             // 创建 WebSocket 之前会有唯一一次 Http 请求 (Header 中包含 Upgrade 并且值为 websocket)
-                            client.pipeline().addLast("http-request", new SimpleChannelInboundHandler<FullHttpRequest>() {
-                                @Override
-                                protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest msg) {
-                                    try {
-                                        String uri = msg.uri();
-                                        ctx.fireChannelRead(msg.setUri(contentPath).retain());
-                                        ctx.flush();
-                                        String[] url = uri.split("\\?");
-                                        Map<String, String> map = new HashMap<>();
-                                        if (url.length == 2) {
-                                            String[] ps = url[1].split("&");
-                                            for (String p : ps) {
-                                                String[] kv = p.split("=");
-                                                if (kv.length == 2) map.put(URLDecoder.decode(kv[0], "UTF-8"), URLDecoder.decode(kv[1], "UTF-8"));
-                                            }
-                                        }
-                                        processor.onOpen(cache.put(ctx.name(), new P6eCloudNettyClient(ctx)), map);
-                                    } catch (Exception e) {
-                                        processor.onError(cache.get(ctx.name()), e);
-                                    }
-                                }
-                            });
+                            client.pipeline().addLast("http-request",
+                                    new P6eCloudNettyServiceWebSocketHttpPipeline(processor, cache, contentPath));
                             // 入参是 ws://server:port/context_path 中的 contex_path
                             client.pipeline().addLast("websocket-server", new WebSocketServerProtocolHandler(contentPath));
                             //业务处理的handler
                             client.pipeline().addLast("frame", new ChannelInboundHandler() {
+
+                                private String clientId = "";
+
                                 @Override
                                 public void channelRegistered(ChannelHandlerContext ctx) {
                                     logger.debug(" channelRegistered " + ctx);
@@ -153,7 +133,7 @@ public class P6eCloudNettyServiceWebSocket extends P6eCloudNettyAbstract {
                                 @Override
                                 public void channelRead(ChannelHandlerContext ctx, Object msg) {
                                     logger.debug(" channelRead " + ctx + "   msg  " + msg);
-                                    P6eCloudNettyClient client = cache.get(ctx.name());
+                                    P6eCloudNettyClient client = cache.get(clientId);
                                     try {
                                         WebSocketFrame frame = (WebSocketFrame) msg;
                                         if (frame instanceof BinaryWebSocketFrame) {
@@ -202,19 +182,22 @@ public class P6eCloudNettyServiceWebSocket extends P6eCloudNettyAbstract {
                                 @Override
                                 public void handlerAdded(ChannelHandlerContext ctx) {
                                     logger.debug(" handlerAdded " + ctx);
+                                    P6eCloudNettyServiceWebSocketHttpPipeline p6eCloudNettyServiceWebSocketHttpPipeline =
+                                            (P6eCloudNettyServiceWebSocketHttpPipeline) ctx.pipeline().get("http-request");
+                                    clientId = p6eCloudNettyServiceWebSocketHttpPipeline.clientId();
                                 }
 
                                 @Override
                                 public void handlerRemoved(ChannelHandlerContext ctx) {
                                     logger.debug(" handlerRemoved " + ctx);
-                                    cache.remove(ctx.name()); // 删除
-                                    processor.onClose(cache.get(ctx.name()));
+                                    cache.remove(clientId); // 删除
+                                    processor.onClose(cache.get(clientId));
                                 }
 
                                 @Override
                                 public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
                                     logger.debug(" exceptionCaught " + ctx);
-                                    processor.onError(cache.get(ctx.name()), cause);
+                                    processor.onError(cache.get(clientId), cause);
                                 }
                             });
                         }
