@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8c77771d-e519-4e21-988d-8e4e292389c7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../p6e_cloud_application/src/main/java/com/p6e/cloud/application/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../p6e_cloud_netty/src/main/java/com/p6e/cloud/netty/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../p6e_cloud_netty/src/main/java/com/p6e/cloud/netty/websocket/P6eCloudNettyServiceWebSocketHttpPipeline.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_application/src/main/java/com/p6e/cloud/application/P6eCloudApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_application/src/main/java/com/p6e/cloud/application/P6eCloudApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_core/src/main/java/com/p6e/cloud/core/group/P6eCloudCoreGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_core/src/main/java/com/p6e/cloud/core/group/P6eCloudCoreGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_core/src/main/java/com/p6e/cloud/core/group/P6eCloudCoreGroupCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_core/src/main/java/com/p6e/cloud/core/group/P6eCloudCoreGroupCache.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_core/src/main/java/com/p6e/cloud/core/group/P6eCloudCoreGroupCacheModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_core/src/main/java/com/p6e/cloud/core/group/P6eCloudCoreGroupCacheModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_core/src/main/java/com/p6e/cloud/core/group/P6eCloudCoreGroupReactor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_core/src/main/java/com/p6e/cloud/core/group/P6eCloudCoreGroupReactor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_netty/logs/club_source_service/log_newest.log" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_netty/logs/club_source_service/log_newest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_netty/src/main/java/com/p6e/cloud/netty/P6eCloudNettyClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_netty/src/main/java/com/p6e/cloud/netty/P6eCloudNettyClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../p6e_cloud_netty/src/main/java/com/p6e/cloud/netty/websocket/P6eCloudNettyServiceWebSocket.java" beforeDir="false" afterPath="$PROJECT_DIR$/../p6e_cloud_netty/src/main/java/com/p6e/cloud/netty/websocket/P6eCloudNettyServiceWebSocket.java" afterDir="false" />
-    </list>
+    <list default="true" id="8c77771d-e519-4e21-988d-8e4e292389c7" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -203,7 +189,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="607" y="141" width="1334" height="1056" extended-state="1" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25588697" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
